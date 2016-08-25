@@ -1,0 +1,36 @@
+#!/usr/bin/env mkb
+files
+{
+    [source]
+    (source)
+	SpaceTraveller.cpp
+	Moveable.h
+   	Moveable.cpp
+	Drawable.h
+	Drawable.cpp
+    	Assets.h
+   	Assets.cpp
+	ShaderProgram.h
+	ShaderProgram.cpp	
+	Button.h
+	Button.cpp
+	InputScene.h
+	InputScene.cpp
+}
+
+subprojects
+{
+    iwutil
+    iwgl
+    iw2d
+    glm-master/glm
+}
+
+option
+{
+    cxx11
+}
+
+deployment
+{
+}
