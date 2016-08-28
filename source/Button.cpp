@@ -27,12 +27,3 @@ bool Button::isClicked() {
     
     return false;
 }
-
-void Button::draw() {
-    shaderProgram.Use();
-
-    GLint modelLoc = glGetUniformLocation(shaderProgram.getProgram(), "model");
-    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
-    
-    Drawable::draw();
-}

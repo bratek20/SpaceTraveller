@@ -12,7 +12,25 @@ Assets::Assets(){
         -1.0f,  1.0f, 0.0f,  0.0f, 1.0f    // Top Left 
     };
 
-    vertexShaderCode = "#version 300 es\n"
+    tetrahedronVertices = {
+        1.0f, 1.0f, 1.0f,   0.0f, 0.0f,
+        -1.0f, 1.0f, -1.0f, 1.0f, 0.0f,
+        1.0f, -1.0f, -1.0f, 1.0f, 1.0f,
+
+        1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+        -1.0f, 1.0f, -1.0f, 1.0f, 0.0f,
+        -1.0f, -1.0f, 1.0f, 1.0f, 1.0f,
+
+        1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+        1.0f, -1.0f, -1.0f, 1.0f, 0.0f,
+        -1.0f, -1.0f, 1.0f, 1.0f, 1.0f,
+    
+        -1.0f, 1.0f, -1.0f, 0.0f, 0.0f,
+        1.0f, -1.0f, -1.0f, 1.0f, 0.0f,
+        -1.0f, -1.0f, 1.0f, 1.0f, 1.0f,
+    };
+
+    vertexShader2DCode = "#version 300 es\n"
         "layout(location = 0) in vec3 position;"
         "layout(location = 1) in vec2 texCoord;"
 
@@ -20,10 +38,23 @@ Assets::Assets(){
 
         "uniform mat4 model;"
         "void main(){"
-            "gl_Position = model*vec4(position, 1.0f);"
+            "gl_Position = model * vec4(position, 1.0f);"
             "TexCoord = vec2(texCoord.x, texCoord.y);"
         "}";
-    
+
+    vertexShader3DCode = "#version 300 es\n"
+        "layout(location = 0) in vec3 position;"
+        "layout(location = 1) in vec2 texCoord;"
+
+        "out vec2 TexCoord;"
+
+        "uniform mat4 model;"
+        "uniform mat4 view;"
+        "uniform mat4 projection;"
+        "void main(){"
+        "gl_Position = projection * view * model * vec4(position, 1.0f);"
+        "TexCoord = vec2(texCoord.x, texCoord.y);"
+        "}";
     fragmentShaderCode = "#version 300 es\n"
         "in highp vec2 TexCoord;"
 
@@ -36,11 +67,14 @@ Assets::Assets(){
         "}";
 
     simpleTexture = loadTexture("container.jpg");
-    
-    shaderProgram2D = ShaderProgram(vertexShaderCode,fragmentShaderCode);
+    tetrahedronTexture = loadTexture("tetrahedronTexture2.png");
+
+    shaderProgram2D = ShaderProgram(vertexShader2DCode,fragmentShaderCode);
+    shaderProgram3D = ShaderProgram(vertexShader3DCode, fragmentShaderCode);
 }
 Assets::~Assets() {
     glDeleteTextures(1, &simpleTexture);
+    glDeleteTextures(1, &tetrahedronTexture);
 }
 
 GLuint Assets::loadTexture(const char* path) {

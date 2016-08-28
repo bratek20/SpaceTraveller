@@ -19,6 +19,7 @@ private:
     GLuint VAO, VBO;//vertex array object, vertex buffer object
 protected:
     ShaderProgram shaderProgram; //how i draw
+    glm::mat4 model;
 public:   
     Drawable() {};
     Drawable(std::vector<GLfloat> &_vertices, GLuint _texture, ShaderProgram _shaderProgram);

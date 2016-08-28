@@ -9,10 +9,10 @@
 class Assets
 {
 public:
-    std::vector<GLfloat> squareVertices;
-    const GLchar *vertexShaderCode, *fragmentShaderCode;
-    GLuint simpleTexture;
-    ShaderProgram shaderProgram2D;
+    std::vector<GLfloat> squareVertices, tetrahedronVertices;
+    const GLchar *vertexShader2DCode, *vertexShader3DCode, *fragmentShaderCode;
+    GLuint simpleTexture,tetrahedronTexture;
+    ShaderProgram shaderProgram2D, shaderProgram3D;
 
     Assets();
 	~Assets();

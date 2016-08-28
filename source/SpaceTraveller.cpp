@@ -13,6 +13,7 @@
 #include "IwDebug.h"
 #include "IwGL.h"
 #include "InputScene.h"
+#include "GameScene.h"
 #define FRAME_TIME (30.0f / 1000.0f)
 
 bool InitAndSetGL() {
@@ -37,7 +38,8 @@ int main()
 
     
     Assets* assets = new Assets();
-    InputScene* inputScene{ new InputScene(*assets) };
+    GameScene* gameScene{ new GameScene(*assets) };
+    InputScene* inputScene{ new InputScene(*assets, *gameScene) };
     
     while (!s3eDeviceCheckQuitRequest())
     {
@@ -47,11 +49,13 @@ int main()
         s3ePointerUpdate();
 
         inputScene->update();
+        gameScene->update();
 
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
               
         inputScene->draw();
+        gameScene->draw();
 
         IwGLSwapBuffers();
 
@@ -61,7 +65,9 @@ int main()
         s3eDeviceYield(yield);
     }
     
+
     delete inputScene;//i have to delete those objects before IWGLTerminate() to avoid context problem
+    delete gameScene;
     delete assets; 
     IwGLTerminate();
 

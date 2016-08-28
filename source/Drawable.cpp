@@ -1,5 +1,5 @@
 #include "Drawable.h"
-
+#include "s3e.h"
 Drawable::Drawable(std::vector<GLfloat> &_vertices, GLuint _texture, ShaderProgram _shaderProgram) :
     vertices(_vertices), texture(_texture), shaderProgram(_shaderProgram) {
     
@@ -32,6 +32,9 @@ void Drawable::draw() {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
     glUniform1i(glGetUniformLocation(shaderProgram.getProgram(), "textureUniform"), 0);
+
+    GLint modelLoc = glGetUniformLocation(shaderProgram.getProgram(), "model");
+    glUniformMatrix4fv(modelLoc, 1, GL_FALSE, glm::value_ptr(model));
 
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, vertices.size()/5);
