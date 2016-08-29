@@ -34,3 +34,22 @@ void Camera::moveLeft() {
 void Camera::moveRight() {
     position += right * VELOCITY;
 }
+
+void Camera::turn(int32 deltaX, int32 deltaY) {
+    GLfloat turnX = deltaX * SENSIVITY;
+    GLfloat turnY = deltaY * SENSIVITY;
+
+    yaw -= turnX;
+    pitch += turnY;
+
+    if (pitch > 89.0f)
+        pitch = 89.0f;
+    if (pitch < -89.0f)
+        pitch = -89.0f;
+    
+    updateCameraVectors();
+}
+
+glm::vec3 Camera::getFront() {
+    return front;
+}

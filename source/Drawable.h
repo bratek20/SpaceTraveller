@@ -19,12 +19,16 @@ private:
     GLuint VAO, VBO;//vertex array object, vertex buffer object
 protected:
     ShaderProgram shaderProgram; //how i draw
-    glm::mat4 model;
+    glm::mat4 model;//where i am in world/what is my rotation etc.
 public:   
-    Drawable() {};
+    Drawable();
     Drawable(std::vector<GLfloat> &_vertices, GLuint _texture, ShaderProgram _shaderProgram);
+    
+    Drawable(const Drawable& other) = delete;          //to avoid bugs 
+    Drawable& operator=(const Drawable& rhs) = delete; //with destructor which destroy still useable VAO and VBO
+
     ~Drawable();
-    virtual void draw(); //delivered classes should use it after their draw actions
+    virtual void draw();
 };
 
 #endif 

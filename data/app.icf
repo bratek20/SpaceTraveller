@@ -1,3 +1,6 @@
 [S3E]
 SysGlesVersion=3
 #SysGlesDirectory=glesongl
+
+[S3E]
+DispFixRot=FixedLandscape # fix to a single landscape orientation

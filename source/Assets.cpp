@@ -13,21 +13,21 @@ Assets::Assets(){
     };
 
     tetrahedronVertices = {
-        1.0f, 1.0f, 1.0f,   0.0f, 0.0f,
+         1.0f, 1.0f,  1.0f, 0.0f, 0.0f,
         -1.0f, 1.0f, -1.0f, 1.0f, 0.0f,
-        1.0f, -1.0f, -1.0f, 1.0f, 1.0f,
+         1.0f,-1.0f, -1.0f, 1.0f, 1.0f,
 
-        1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+         1.0f, 1.0f,  1.0f, 0.0f, 0.0f,
         -1.0f, 1.0f, -1.0f, 1.0f, 0.0f,
-        -1.0f, -1.0f, 1.0f, 1.0f, 1.0f,
+        -1.0f,-1.0f,  1.0f, 1.0f, 1.0f,
 
-        1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
-        1.0f, -1.0f, -1.0f, 1.0f, 0.0f,
-        -1.0f, -1.0f, 1.0f, 1.0f, 1.0f,
+         1.0f, 1.0f,  1.0f, 0.0f, 0.0f,
+         1.0f,-1.0f, -1.0f, 1.0f, 0.0f,
+        -1.0f,-1.0f,  1.0f, 1.0f, 1.0f,
     
         -1.0f, 1.0f, -1.0f, 0.0f, 0.0f,
-        1.0f, -1.0f, -1.0f, 1.0f, 0.0f,
-        -1.0f, -1.0f, 1.0f, 1.0f, 1.0f,
+         1.0f,-1.0f, -1.0f, 1.0f, 0.0f,
+        -1.0f,-1.0f,  1.0f, 1.0f, 1.0f,
     };
 
     vertexShader2DCode = "#version 300 es\n"
@@ -39,7 +39,7 @@ Assets::Assets(){
         "uniform mat4 model;"
         "void main(){"
             "gl_Position = model * vec4(position, 1.0f);"
-            "TexCoord = vec2(texCoord.x, texCoord.y);"
+            "TexCoord = vec2(texCoord.x, 1.0f - texCoord.y);"
         "}";
 
     vertexShader3DCode = "#version 300 es\n"
@@ -66,15 +66,25 @@ Assets::Assets(){
             "color = texture(textureUniform, TexCoord);"
         "}";
 
-    simpleTexture = loadTexture("container.jpg");
-    tetrahedronTexture = loadTexture("tetrahedronTexture2.png");
+    tetrahedronTexture = loadTexture("textures/tetrahedronTexture.png");
+    upButtonTexture = loadTexture("textures/upButton.png");
+    downButtonTexture = loadTexture("textures/downButton.png");
+    leftButtonTexture = loadTexture("textures/leftButton.png");
+    rightButtonTexture = loadTexture("textures/rightButton.png");
+    spawnButtonTexture = loadTexture("textures/spawnButton.png");
+    confirmButtonTexture = loadTexture("textures/confirmButton.png");
 
     shaderProgram2D = ShaderProgram(vertexShader2DCode,fragmentShaderCode);
     shaderProgram3D = ShaderProgram(vertexShader3DCode, fragmentShaderCode);
 }
 Assets::~Assets() {
-    glDeleteTextures(1, &simpleTexture);
     glDeleteTextures(1, &tetrahedronTexture);
+    glDeleteTextures(1, &upButtonTexture);
+    glDeleteTextures(1, &downButtonTexture);
+    glDeleteTextures(1, &leftButtonTexture);
+    glDeleteTextures(1, &rightButtonTexture);
+    glDeleteTextures(1, &spawnButtonTexture);
+    glDeleteTextures(1, &confirmButtonTexture);
 }
 
 GLuint Assets::loadTexture(const char* path) {
@@ -94,7 +104,7 @@ GLuint Assets::loadTexture(const char* path) {
     // Set texture filtering parameters
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    // Load image, create texture and generate mipmaps
+ 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image->GetWidth(), image->GetHeight(), 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, image->GetTexels());
     glGenerateMipmap(GL_TEXTURE_2D);
 

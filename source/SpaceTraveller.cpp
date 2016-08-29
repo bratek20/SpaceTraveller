@@ -41,9 +41,7 @@ int main()
     GameScene* gameScene{ new GameScene(*assets) };
     InputScene* inputScene{ new InputScene(*assets, *gameScene) };
     
-    while (!s3eDeviceCheckQuitRequest())
-    {
-
+    while (!s3eDeviceCheckQuitRequest()) {
         uint64 new_time = s3eTimerGetMs();
 
         s3ePointerUpdate();
@@ -67,8 +65,8 @@ int main()
     
 
     delete inputScene;//i have to delete those objects before IWGLTerminate() to avoid context problem
-    delete gameScene;
-    delete assets; 
+    delete gameScene; //smart pointers alse had to be here reset
+    delete assets;    //so i use raw ones
     IwGLTerminate();
 
     return 0;

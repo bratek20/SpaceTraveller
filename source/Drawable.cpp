@@ -1,5 +1,9 @@
 #include "Drawable.h"
 #include "s3e.h"
+Drawable::Drawable() {
+    glGenVertexArrays(1, &VAO);
+    glGenBuffers(1, &VBO);
+}
 Drawable::Drawable(std::vector<GLfloat> &_vertices, GLuint _texture, ShaderProgram _shaderProgram) :
     vertices(_vertices), texture(_texture), shaderProgram(_shaderProgram) {
     
@@ -22,8 +26,8 @@ Drawable::Drawable(std::vector<GLfloat> &_vertices, GLuint _texture, ShaderProgr
 }
 
 Drawable::~Drawable() {
-    glDeleteVertexArrays(1, &VAO);
-    glDeleteBuffers(1, &VBO);
+    glDeleteVertexArrays(1, &VAO);// if object could be copied, there whould be bug
+    glDeleteBuffers(1, &VBO);     // becouse one object still would be live and other could delete VAO and VBO
 }
 
 void Drawable::draw() {

@@ -3,9 +3,10 @@
 
 #include "glm/glm.hpp"
 
+//interface supports moving object
 class Moveable {
 protected:
-    glm::vec3 position;
+    glm::vec3 position;//position in game world
 public:
     Moveable();
     virtual ~Moveable() {}
@@ -14,5 +15,8 @@ public:
     virtual void moveBackward() = 0;
     virtual void moveLeft() = 0;
     virtual void moveRight() = 0;
+    virtual void turn(int32 deltaX, int32 deltaY) = 0;
+
+    glm::vec3 getPosition();
 };
 #endif 
